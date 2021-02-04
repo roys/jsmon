@@ -173,6 +173,8 @@ def main():
     allendpoints = get_endpoint_list('targets')
 
     for ep in allendpoints:
+        if not ep or not ep.strip():
+            print("Skipping empty line.")
         print("Checking", ep)
         prev_hash = get_previous_endpoint_hash(ep)
         try:
