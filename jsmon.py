@@ -168,7 +168,7 @@ def main():
     if NOTIFY_TELEGRAM and "CHANGEME" in [TELEGRAM_TOKEN, TELEGRAM_CHAT_ID]:
         print("Please Set Up your Telegram Token And Chat ID!!!")
     if NOTIFY_SLACK and "CHANGEME" in [SLACK_TOKEN, SLACK_CHANNEL_ID]:
-        print("Please Set Up your Sllack Token And Channel ID!!!")
+        print("Please Set Up your Slack Token And Channel ID!!!")
         
     allendpoints = get_endpoint_list('targets')
 
@@ -186,9 +186,9 @@ def main():
                     notify(ep,prev_hash, ep_hash)
                 else:
                     print("New Endpoint enrolled: {}".format(ep))
-        except ConnectionError as e:
-            print("Got ConnectionError while trying to download file", ep, ". Waiting a bit and continuing with next one.", sys.exc_info())
-            time.sleep(1)
+        except requests.exceptions.ConnectionError as e:
+            print("Got ConnectionError while trying to download file", ep, ". Continuing with the next one.", sys.exc_info())
+            time.sleep(1) # Just in case we are going too fast for the server
     print("Done")
 
 main()        
