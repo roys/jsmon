@@ -7,6 +7,8 @@ import hashlib
 import json
 import difflib
 import jsbeautifier
+import sys
+import time
 
 from decouple import config
 
@@ -171,18 +173,23 @@ def main():
     allendpoints = get_endpoint_list('targets')
 
     for ep in allendpoints:
+        print("Checking", ep)
         prev_hash = get_previous_endpoint_hash(ep)
-        ep_text = get_endpoint(ep)
-        ep_hash = get_hash(ep_text)
-        if ep_hash == prev_hash:
-            continue
-        else:
-            save_endpoint(ep, ep_hash, ep_text)
-            if prev_hash is not None:
-                notify(ep,prev_hash, ep_hash)
+        try:
+            ep_text = get_endpoint(ep)
+            ep_hash = get_hash(ep_text)
+            if ep_hash == prev_hash:
+                continue
             else:
-                print("New Endpoint enrolled: {}".format(ep))
-
+                save_endpoint(ep, ep_hash, ep_text)
+                if prev_hash is not None:
+                    notify(ep,prev_hash, ep_hash)
+                else:
+                    print("New Endpoint enrolled: {}".format(ep))
+        except ConnectionError as e:
+            print("Got ConnectionError while trying to download file", ep, ". Waiting a bit and continuing with next one.", sys.exc_info())
+            time.sleep(1)
+    print("Done")
 
 main()        
 
