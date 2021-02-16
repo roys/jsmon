@@ -56,7 +56,7 @@ All done ! now you can run `python jsmon.py` to download the specified files for
 ## Features
 
 - Keep Track of endpoints - check them in a configurable interval (using cron)
-- when endpoints change - send a notification via Telegram or Slack
+- When endpoints change - send a notification via Telegram or Slack
 
 
 
@@ -65,6 +65,7 @@ All done ! now you can run `python jsmon.py` to download the specified files for
 - Provide Endpoints via files in `targets/` directory (line seperated endpoints)
     - any number of files, with one endpoint per line
     - e.g. one file per website, or one file per program, etc.
+    - use hash (`#`) for comments, blank lines ae skipped
 - Every endpoint gets downloaded and stored in downloads/ with its hash as file name (first 10 chars of md5 hash)
     - if it already exists nothing changes
     - if it is changed, user gets notified
