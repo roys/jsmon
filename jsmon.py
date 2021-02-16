@@ -175,6 +175,10 @@ def main():
     for ep in allendpoints:
         if not ep or not ep.strip():
             print("Skipping empty line.")
+            continue
+        elif ep.strip().startswith('#'):
+            print("Comment: ", ep)
+            continue
         print("Checking", ep)
         prev_hash = get_previous_endpoint_hash(ep)
         try:
